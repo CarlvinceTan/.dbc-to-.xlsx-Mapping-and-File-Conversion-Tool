@@ -18,6 +18,8 @@ Place only one .dbc file into the Input folder, adjust/add/remove CAN connection
 High: [Pin1] -> [Pin2], Low: [Pin3] -> [Pin4]
 [newline]
 ```
+*N.B. It is whitespace sensitive*
+
 Then run the following in your terminal according to your operating system:
 Windows:
 - Run `./win.sh`
