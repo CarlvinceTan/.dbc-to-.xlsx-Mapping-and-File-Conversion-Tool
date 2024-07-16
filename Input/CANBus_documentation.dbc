@@ -1,0 +1,133 @@
+VERSION ""
+
+
+NS_ : 
+	NS_DESC_
+	CM_
+	BA_DEF_
+	BA_
+	VAL_
+	CAT_DEF_
+	CAT_
+	FILTER
+	BA_DEF_DEF_
+	EV_DATA_
+	ENVVAR_DATA_
+	SGTYPE_
+	SGTYPE_VAL_
+	BA_DEF_SGTYPE_
+	BA_SGTYPE_
+	SIG_TYPE_REF_
+	VAL_TABLE_
+	SIG_GROUP_
+	SIG_VALTYPE_
+	SIGTYPE_VALTYPE_
+	BO_TX_BU_
+	BA_DEF_REL_
+	BA_REL_
+	BA_DEF_DEF_REL_
+	BU_SG_REL_
+	BU_EV_REL_
+	BU_BO_REL_
+	SG_MUL_VAL_
+
+BS_:
+
+BU_: Inverter Motec_M150 Dash BMS
+
+
+BO_ 1 M150_0x1: 8 Motec_M150
+ SG_ Torque_Cmd : 40|24@1+ (1,0) [0|16777215] ""  Inverter
+
+BO_ 137 M150_0x89: 2 Motec_M150
+ SG_ BMS_Data_PackDCL : 0|16@1+ (1,0) [0|0] ""  Dash
+
+BO_ 144 M150_0x90: 1 Motec_M150
+ SG_ Brightness : 0|8@1+ (1,0) [0|0] ""  Dash
+
+BO_ 145 M150_0x91: 2 Motec_M150
+ SG_ Vehicle_LV_SOC : 0|16@1+ (1,0) [0|0] ""  Dash
+
+BO_ 146 M150_0x92: 2 Motec_M150
+ SG_ Vehicle_LV_Voltage : 0|16@1+ (1,0) [0|65535] ""  Dash
+
+BO_ 147 M150_0x93: 2 Motec_M150
+ SG_ Vehicle_Data_TempMotor : 0|16@1+ (1,0) [0|0] "Celsius"  Dash
+
+BO_ 148 M150_0x94: 2 Motec_M150
+ SG_ BMS_Power : 0|16@1+ (1,0) [0|0] ""  Dash
+
+BO_ 149 M150_0x95: 2 Motec_M150
+ SG_ Vehicle_Data_TempIGBT : 0|16@1+ (1,0) [0|0] "Celsius"  Dash
+
+BO_ 150 M150_0x96: 2 Motec_M150
+ SG_ Vehicle_Data_Speed : 0|16@1+ (1,0) [0|0] "km/h"  Dash
+
+BO_ 151 M150_0x97: 2 Motec_M150
+ SG_ BMS_Data_Soc : 0|16@1+ (1,0) [0|0] "%"  Dash
+
+BO_ 152 M150_0x98: 2 Motec_M150
+ SG_ BMS_Data_PackVoltage : 0|16@1+ (1,0) [0|0] "V"  Dash
+
+BO_ 153 M150_0x99: 2 Motec_M150
+ SG_ BMS_Data_HighTemperature : 0|16@1+ (1,0) [0|0] "Celsius"  Dash
+
+BO_ 96 BMS_0x060: 2 BMS
+ SG_ LowThermistorID : 0|16@1- (1,0) [0|0] ""  Motec_M150
+
+BO_ 80 BMS_0x050: 8 BMS
+ SG_ HighThermistorID : 48|16@1- (1,0) [-32768|32767] ""  Motec_M150
+ SG_ InternalTemperature : 32|16@1- (1,0) [0|0] "Celsius"  Motec_M150
+ SG_ DTC_Flags_2 : 16|16@1- (1,0) [0|0] ""  Motec_M150
+ SG_ DTC_Flags_1 : 0|16@1- (1,0) [0|0] ""  Motec_M150
+
+BO_ 64 BMS_0x040: 6 BMS
+ SG_ LowTemperature : 32|16@1- (1,0) [0|0] "Celsius"  Motec_M150
+ SG_ HighTemperature : 16|16@1- (1,0) [0|0] "Celsius"  Motec_M150
+ SG_ CurrentLimitsStatus : 0|16@1- (1,0) [0|0] ""  Motec_M150
+
+BO_ 48 BMS_0x030: 2 BMS
+ SG_ LowCellVoltage : 8|8@1- (1,0) [0|0] "V"  Motec_M150
+ SG_ HighCellVoltage : 0|8@1- (1,0) [0|0] "V"  Motec_M150
+
+BO_ 32 BMS_0x020: 8 BMS
+ SG_ PackHealth : 48|16@1- (1,0) [-32768|32767] ""  Motec_M150
+ SG_ PackResistance : 32|16@1- (1,0) [0|0] ""  Motec_M150
+ SG_ PackCCL : 16|16@1- (1,0) [-32768|32767] ""  Motec_M150
+ SG_ PackDCL : 0|16@1- (1,0) [0|0] ""  Motec_M150
+
+BO_ 16 BMS_0x010: 8 BMS
+ SG_ SoC : 48|16@1+ (1,0) [0|65535] "%"  Motec_M150
+ SG_ PackCurrent : 32|16@1+ (1,0) [0|65535] "A"  Motec_M150
+ SG_ PackOpenVoltage : 16|16@1- (1,0) [-32768|32767] "V"  Motec_M150
+ SG_ PackVoltage : 0|16@1- (1,0) [-32768|32767] "V"  Motec_M150
+
+
+
+BA_DEF_ BO_  "GenMsgCycleTime" INT 0 100000;
+BA_DEF_ BO_  "GenMsgSendType" ENUM  "Cyclic","NotUsed","IfActive","NoMsgSendtype";
+BA_DEF_  "MultiplexExtEnabled" ENUM  "No","Yes";
+BA_DEF_  "BusType" STRING ;
+BA_DEF_DEF_  "GenMsgCycleTime" 0;
+BA_DEF_DEF_  "GenMsgSendType" "Cyclic";
+BA_DEF_DEF_  "MultiplexExtEnabled" "No";
+BA_DEF_DEF_  "BusType" "CAN";
+BA_ "GenMsgCycleTime" BO_ 1 20;
+BA_ "GenMsgCycleTime" BO_ 137 200;
+BA_ "GenMsgCycleTime" BO_ 144 200;
+BA_ "GenMsgCycleTime" BO_ 145 200;
+BA_ "GenMsgCycleTime" BO_ 146 200;
+BA_ "GenMsgCycleTime" BO_ 147 200;
+BA_ "GenMsgCycleTime" BO_ 148 200;
+BA_ "GenMsgCycleTime" BO_ 149 200;
+BA_ "GenMsgCycleTime" BO_ 150 200;
+BA_ "GenMsgCycleTime" BO_ 151 200;
+BA_ "GenMsgCycleTime" BO_ 152 200;
+BA_ "GenMsgCycleTime" BO_ 153 200;
+BA_ "GenMsgCycleTime" BO_ 96 20;
+BA_ "GenMsgCycleTime" BO_ 80 20;
+BA_ "GenMsgCycleTime" BO_ 64 20;
+BA_ "GenMsgCycleTime" BO_ 48 20;
+BA_ "GenMsgCycleTime" BO_ 32 20;
+BA_ "GenMsgCycleTime" BO_ 16 20;
+

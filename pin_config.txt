@@ -1,0 +1,11 @@
+Motec_m150 -> Inverter
+High: A28 -> 33, Low: A29 -> 11
+
+Motec_m150 -> Inverter
+High: A30 -> 33, Low: A29 -> 11
+
+Motec_m150 -> Dash
+High: D17 -> 4, Low: D18 -> 3
+
+Motec_m150 -> BMS
+High: D17 -> 18, Low: D18 -> 19
