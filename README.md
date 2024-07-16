@@ -9,7 +9,7 @@
 ## Features
 - Auto-renaming
 - Automatic cell-width adjustment
-- Handles dependencies
+- Handles dependencies 
 
 ## How to Use
 Place only one .dbc file into the Input folder, adjust/add/remove CAN connections listed in the pin_config.txt file in the following format (excluding square brackets):
@@ -30,7 +30,12 @@ The output should appear in the Output folder
 
 ## Resolving issues
 If your terminal requests permission:
+
 Windows:
 - Run `icacls bash_script.sh /grant Users:(RX)`
+
 Mac/Linux:
 - Run `chmod +x bash_script.sh`
+  
+If your IDE doesn't recognise a library:
+  Just ignore it.
