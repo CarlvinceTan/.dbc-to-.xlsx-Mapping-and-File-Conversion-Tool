@@ -3,7 +3,7 @@
 **Written by Carlvince Tan for MUR Documentation Tools**
 
 ## Motivation
-- This Tool is mainly to enable ease of access and maintainability for electrical engineers; however, for software engineers who require further information, still refer to the .dbc file
+- This tool is mainly to enable ease of access and maintainability for electrical engineers; however, for software engineers who require further information, still refer to the .dbc file
 - The demo Vector CANdb++ software isn't able to create new attributes/categories to specify pins, adding these extra details in the comments will also result in permanent adjustments to the .dbc, unable to be uncommented.
 
 ## Features
