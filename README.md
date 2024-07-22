@@ -25,6 +25,7 @@ High: [Pin1] -> [Pin2], Low: [Pin3] -> [Pin4]
 Then run the following in your terminal according to your operating system:
 Windows:
 - Run `./win.sh`
+
 Mac/Linux:
 - Run `./mac_linux.sh`
 
