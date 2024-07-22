@@ -23,6 +23,7 @@ High: [Pin1] -> [Pin2], Low: [Pin3] -> [Pin4]
 *N.B. It is whitespace sensitive*
 
 Then run the following in your terminal according to your operating system:
+
 Windows:
 - Run `./win.sh`
 
@@ -39,6 +40,3 @@ Windows:
 
 Mac/Linux:
 - Run `chmod +x bash_script.sh`
-  
-If your IDE doesn't recognise a library:
-  Just ignore it.
