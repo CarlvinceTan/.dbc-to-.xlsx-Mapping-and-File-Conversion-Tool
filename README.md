@@ -12,6 +12,8 @@
 - Handles dependencies 
 
 ## How to Use
+Go to .dbcConverter.py file, then add the Python interpreter path `./venv/bin/python`.
+
 Place only one .dbc file into the Input folder, adjust/add/remove CAN connections listed in the pin_config.txt file in the following format (excluding square brackets):
 ```Bash
 [Device1] -> [Device2]
