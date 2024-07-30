@@ -33,7 +33,7 @@ Mac/Linux:
 The output should appear in the Output folder
 
 ## Resolving issues
-If your terminal requests permission:
+If your terminal requests permission to execute shell script:
 
 Windows:
 - Run `icacls bash_script.sh /grant Users:(RX)`
