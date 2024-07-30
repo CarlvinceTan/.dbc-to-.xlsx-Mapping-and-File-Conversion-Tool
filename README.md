@@ -8,8 +8,8 @@
 
 ## Features
 - Auto-renaming
-- Automatic cell-width adjustment
-- Handles dependencies 
+- Automatic cell-width adjustment and formatting
+- Dependecies are pre-included
 
 ## How to Use
 Go to .dbcConverter.py file, then add the Python interpreter path `./venv/bin/python`.
