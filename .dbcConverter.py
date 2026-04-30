@@ -7,7 +7,7 @@ import re
 inputFile = glob.glob('Input/*')[0]
 
 # Initialise .xlsx file
-fileName = re.search(r"(?<=/)([\w]+)(?=.)", inputFile).group()
+fileName = os.path.splitext(os.path.basename(inputFile))[0]
 workbook = xlsxwriter.Workbook(os.path.join("Output", f"{fileName}.xlsx"))
 worksheet = workbook.add_worksheet()
 
@@ -34,43 +34,79 @@ def update_max_lengths(string, col):
     if len(string) > max_lengths[col]:
         max_lengths[col] = len(string)
 
-# Function to parse in pin configurations from pin_config.txt and .dbc
-def write_row(device1, device2, signal, message, row): 
-    lineCount = 1
-    devices = [device1.lower(), device2.lower()]
-    with open("pin_config.txt", 'r') as pinConfigFile:
-        for line in pinConfigFile:
-            if lineCount % 3 == 1:
-                component1 = re.search(r'^\b(\w+)\b', line).group().lower()
-                component2 = re.search(r'\b(\w+)\b$', line).group().lower()
-            if lineCount % 3 == 2 and component1 in devices and component2 in devices:        
-                pinHighFrom = re.search(r"(?<=High:\s)[\w]+(?=\s*->)", line).group()
-                pinHighTo = re.search(r"(?<=->\s)[\w]+(?=,)", line).group()
-                pinLowFrom = re.search(r"(?<=Low:\s)[\w]+(?=\s*->)", line).group()
-                pinLowTo = re.search(r"\b(\w+)\b$", line).group()
-                if component1 == deviceFrom:
-                    worksheet.write(f"A{row}", deviceFrom)
-                    worksheet.write(f"B{row}", deviceTo)
-                    worksheet.write(f"C{row}", signal)
-                    worksheet.write(f"D{row}", message)
-                    worksheet.write(f"E{row}", pinHighFrom)
-                    worksheet.write(f"F{row}", pinHighTo)
-                    worksheet.write(f"G{row}", pinLowFrom)
-                    worksheet.write(f"H{row}", pinLowTo)
-                    row += 1
-                else:   # Swap to make sure writing in correct from and to columns
-                    worksheet.write(f"A{row}", deviceFrom)
-                    worksheet.write(f"B{row}", deviceTo)
-                    worksheet.write(f"C{row}", signal)
-                    worksheet.write(f"D{row}", message)
-                    worksheet.write(f"E{row}", pinHighTo)
-                    worksheet.write(f"F{row}", pinHighFrom)
-                    worksheet.write(f"G{row}", pinLowTo)
-                    worksheet.write(f"H{row}", pinLowFrom)
-                row += 1
-            lineCount += 1
 
-    pinConfigFile.close()
+def parse_pin_config(file_path="pin_config.txt"):
+    pin_connections = []
+    with open(file_path, "r") as pin_config_file:
+        lines = [line.strip() for line in pin_config_file if line.strip()]
+
+    for idx in range(0, len(lines), 2):
+        device_line = lines[idx]
+        pin_line = lines[idx + 1]
+
+        component1 = re.search(r"^\s*(\w+)\s*->", device_line).group(1)
+        component2 = re.search(r"->\s*(\w+)\s*$", device_line).group(1)
+        pin_high_from = re.search(r"(?<=High:\s)[\w]+(?=\s*->)", pin_line).group()
+        pin_high_to = re.search(r"(?<=->\s)[\w]+(?=,)", pin_line).group()
+        pin_low_from = re.search(r"(?<=Low:\s)[\w]+(?=\s*->)", pin_line).group()
+        pin_low_to = re.search(r"\b(\w+)\b$", pin_line).group()
+
+        pin_connections.append(
+            {
+                "component1": component1,
+                "component2": component2,
+                "pin_high_from": pin_high_from,
+                "pin_high_to": pin_high_to,
+                "pin_low_from": pin_low_from,
+                "pin_low_to": pin_low_to,
+            }
+        )
+
+    return pin_connections
+
+
+pin_connections = parse_pin_config()
+
+# Function to parse in pin configurations from pin_config.txt and .dbc
+def write_row(device1, device2, signal, message, row):
+    sender = device1.lower()
+    receiver = device2.lower()
+
+    matched_connections = []
+    for conn in pin_connections:
+        endpoints = {conn["component1"].lower(), conn["component2"].lower()}
+        if sender in endpoints and receiver in endpoints:
+            matched_connections.append(conn)
+
+    # Many DBC files use Vector__XXX as SG receiver placeholder.
+    # In that case, use all known links for the sender from pin_config.txt.
+    if not matched_connections and receiver in {"vector__xxx", "vector__independent_sig_msg"}:
+        for conn in pin_connections:
+            endpoints = {conn["component1"].lower(), conn["component2"].lower()}
+            if sender in endpoints:
+                matched_connections.append(conn)
+
+    for conn in matched_connections:
+        component1 = conn["component1"].lower()
+
+        worksheet.write(f"A{row}", device1)
+        worksheet.write(f"B{row}", device2)
+        worksheet.write(f"C{row}", signal)
+        worksheet.write(f"D{row}", message)
+
+        if component1 == sender:
+            worksheet.write(f"E{row}", conn["pin_high_from"])
+            worksheet.write(f"F{row}", conn["pin_high_to"])
+            worksheet.write(f"G{row}", conn["pin_low_from"])
+            worksheet.write(f"H{row}", conn["pin_low_to"])
+        else:
+            worksheet.write(f"E{row}", conn["pin_high_to"])
+            worksheet.write(f"F{row}", conn["pin_high_from"])
+            worksheet.write(f"G{row}", conn["pin_low_to"])
+            worksheet.write(f"H{row}", conn["pin_low_from"])
+
+        row += 1
+
     return row
 
 # Commence Main Parsing Logic!
